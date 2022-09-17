@@ -2,15 +2,22 @@ import { Button, Link, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useWidth } from "../hooks/useWidth";
 import {
-  FolderShared,
-  Groups2,
-  ListAlt,
-  ChevronRight,
-  ChevronLeft,
+    FolderShared,
+    Groups2,
+    ListAlt,
+    ChevronRight,
+    ChevronLeft, Add,
 } from "@mui/icons-material";
+import {useSession} from "next-auth/react";
+import {db} from "../../serverless/firebase";
+import {doc, DocumentSnapshot, getDoc, setDoc} from "@firebase/firestore";
+import {DataSnapshot} from "@firebase/database";
+import {useRouter} from "next/router";
 
 function Sidebar() {
   const width = useWidth();
+  const { data: session, status } = useSession();
+  const router = useRouter()
   const [isExpanded, setIsExpanded] = useState(false);
   useEffect(() => {
     width > 1000 ? setIsExpanded(true) : setIsExpanded(false);
@@ -76,10 +83,35 @@ function Sidebar() {
             Shared{" "}
           </Link>
         </div>
+          <div>
+              <Add sx={{ height: "40px", width: "40px" }} />{" "}
+              <div
+                  style={{ textDecoration: "none", fontSize: "1.33rem", color: "black" }}
+                  onClick={()=>{
+                      // @ts-ignore
+                      let name : string = prompt("enter name")
+                      getDoc(doc(db,"Groups",name===null ? "" : name)).then((snap : DocumentSnapshot)=>{
+                          if(snap.exists()) {
+                              alert("Group with this name already exists")
+                          }
+                          else {
+                              setDoc(doc(db,"Groups",name),{
+                                  name : name
+                              }).then(r=>{
+                                  router.push(`/groups/${name}`)
+                              }).catch(error=> console.log(error))
+                          }
+                      })
+                  }}
+              >
+                  {" "}
+                  Add Group{" "}
+              </div>
+          </div>
         <div>
           <Groups2 sx={{ height: "40px", width: "40px" }} />{" "}
           <Link
-            sx={{ textDecoration: "none", fontSize: "1.33rem", color: "black" }}
+            style={{ textDecoration: "none", fontSize: "1.33rem", color: "black" }}
             href="groups"
           >
             {" "}
