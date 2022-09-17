@@ -44,35 +44,114 @@ function Sidebar() {
     const uploadSomething = async (name: string) => {
         // console.log("object");
         if (imageToPost) {
-            const storageRef = ref(storage, `media/${user?.data?.user?.email}`);
-            uploadString(storageRef, imageToPost, "data_url").then(() => {
-                getDownloadURL(
-                    ref(storage, `media/${user?.data?.user?.email}`)
-                ).then((url) => {
-                    const path = router.pathname;
-                    if (path === "/drive/home") {
-                        addDoc(collection(db, `/users/${user?.data?.user?.email}/files`), {
-                            name: { name },
-                            link: { url },
-                        });
-                    } else {
-                        while (!router.isReady) {
-                            continue;
-                        }
-                        addDoc(collection(db, `folders/${router.query.folder}/files`), {
-                            name: { name },
-                            perms: {
-                                todo: "todo"
-                            },
-                        });
+            const path = router.pathname;
+            if (path === "/drive/home") {
+                addDoc(
+                    collection(db, `/users/${user?.data?.user?.email}/files`),
+                    {
+                        name: { name },
                     }
+                ).then((id) => {
+                    const storageRef = ref(
+                        storage,
+                        `media/${user?.data?.user?.email}/${id.id}`
+                    );
+                    uploadString(storageRef, imageToPost, "data_url").then(
+                        () => {
+                            getDownloadURL(
+                                ref(storage, `media/${user?.data?.user?.email}`)
+                            ).then((url) => {
+                                setDoc(
+                                    doc(
+                                        db,
+                                        `/users/${user?.data?.user?.email}/files`,
+                                        id.id
+                                    ),
+                                    {
+                                        url,
+                                    },
+                                    {
+                                        merge: true,
+                                    }
+                                );
+                            });
+                        }
+                    );
                 });
-            });
-        }
-        else {
+            } else {
+                while (!router.isReady) {
+                    continue;
+                }
+                addDoc(collection(db, `folders/${router.query.folder}/files`), {
+                    name: { name },
+                }).then((id)=> {
+                    const storageRef = ref(
+                        storage,
+                        `media/${user?.data?.user?.email}/${id.id}`
+                    );
+                    uploadString(storageRef, imageToPost, "data_url").then(
+                        () => {
+                            getDownloadURL(
+                                ref(storage, `media/${user?.data?.user?.email}`)
+                            ).then((url) => {
+                                setDoc(
+                                    doc(
+                                        db,
+                                        `folders/${router.query.folder}/files`,
+                                        id.id
+                                    ),
+                                    {
+                                        url,
+                                    },
+                                    {
+                                        merge: true,
+                                    }
+                                );
+                            });
+                        }
+                    );
+                });
+            }
+            // const storageRef = ref(storage, `media/${user?.data?.user?.email}`);
+            // uploadString(storageRef, imageToPost, "data_url").then(() => {
+            //     getDownloadURL(
+            //         ref(storage, `media/${user?.data?.user?.email}`)
+            //     ).then((url) => {
+            //         const path = router.pathname;
+            //         if (path === "/drive/home") {
+            //             addDoc(
+            //                 collection(
+            //                     db,
+            //                     `/users/${user?.data?.user?.email}/files`
+            //                 ),
+            //                 {
+            //                     name: { name },
+            //                     link: { url },
+            //                 }
+            //             );
+            //         } else {
+            //             while (!router.isReady) {
+            //                 continue;
+            //             }
+            //             addDoc(
+            //                 collection(
+            //                     db,
+            //                     `folders/${router.query.folder}/files`
+            //                 ),
+            //                 {
+            //                     name: { name },
+            //                     perms: {
+            //                         todo: "todo",
+            //                     },
+            //                 }
+            //             );
+            //         }
+            //     });
+            // });
+        } else {
             console.log("Nothing to upload");
         }
-    }
+    };
 
     useEffect(() => {
         width > 1000 ? setIsExpanded(true) : setIsExpanded(false);
@@ -131,7 +210,7 @@ function Sidebar() {
 
     const upload = () => {
         uploadSomething("harsh");
-    }
+    };
     if (!isExpanded) {
         return (
             <>
@@ -160,7 +239,12 @@ function Sidebar() {
                 boxShadow: "4px 0 2px -1px #888",
             }}
         >
-            <input type="file" hidden ref={uploadRef} onChange={addImageToFile} />
+            <input
+                type="file"
+                hidden
+                ref={uploadRef}
+                onChange={addImageToFile}
+            />
             <Button
                 fullWidth
                 sx={{ justifyContent: "end" }}
