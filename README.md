@@ -36,7 +36,7 @@ Install frontend with yarn
 ```bash
   cd .\website\
   yarn install
-  npm start
+  yarn dev
 ```
 
     
