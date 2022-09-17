@@ -2,16 +2,15 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { getSession } from "next-auth/react";
 import Landing from "../screens/landing";
-import DashBoard from "../screens/dashboard";
 
-const Home: NextPage = ({loggedIn}: any) => {
+const Home: NextPage = () => {
     return (
         <div className="flex min-h-screen flex-col  py-2">
             <Head>
                 <title>CloudNine</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            {!loggedIn ? <Landing /> : <DashBoard />}
+            <Landing />
         </div>
     );
 };
@@ -24,8 +23,9 @@ export async function getServerSideProps(context: any) {
         const session = await getSession({ req });
         if (session) {
             return {
-                props: {
-                    loggedIn: true,
+                redirect: {
+                    destination: "/drive",
+                    permanent: true,
                 },
             };
         }
