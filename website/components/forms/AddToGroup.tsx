@@ -60,9 +60,9 @@ export default function AddToGroup({ id, group, owner, open, close, link }: any)
         write : write,
         download : download,
         delete : del
-      }, {
-        merge : true
       })
+    },{
+      merge : true
     }).finally(()=> close())
 
     console.log(form.current)
