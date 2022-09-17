@@ -1,22 +1,9 @@
 import {InputAdornment, TextField} from "@mui/material";
 import {Info, Search, Settings} from "@mui/icons-material";
-import {useEffect, useState} from "react";
+import { useWidth } from "../hooks/useWidth";
 
 export const Navbar = () => {
-
-    const [width,setWidth] = useState(4000)
-
-    useEffect(()=>{
-        setWidth(window.innerWidth)
-        const handleWidth = ()=>{
-            setWidth(window.innerWidth)
-        }
-        window.addEventListener("resize",handleWidth)
-        return ()=>{
-            window.removeEventListener("resize",handleWidth)
-        }
-    })
-
+    const width = useWidth();
     return (
         <div className="flex flex-row p-[10px] shadow items-center">
             <img
