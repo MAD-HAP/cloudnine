@@ -25,12 +25,14 @@ function Home({ folders, files }: any) {
       },
       { merge: true }
     );
-    useEffect( () => {
-      folders.map((fld: any) => {
-        fsStruct.push([fld.name])
-      })
-    }, [])
   }, [session]);
+
+  useEffect( () => {
+    folders.map((fld: any) => {
+      fsStruct.push([fld.name, "folder", fld.id])
+    })
+  }, [])
+  
   return (
     <div className="h-screen w-screen overflow-hidden flex flex-col">
       <Head>
