@@ -6,7 +6,7 @@ import DashBoard from "../screens/dashboard";
 
 const Home: NextPage = ({loggedIn}: any) => {
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center py-2">
+        <div className="flex min-h-screen flex-col  py-2">
             <Head>
                 <title>CloudNine</title>
                 <link rel="icon" href="/favicon.ico" />
