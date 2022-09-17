@@ -1,4 +1,4 @@
-import { doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import React from "react";
 import { Navbar } from "../../../components/common/Navbar";
 import Sidebar from "../../../components/common/Sidebar";
@@ -18,7 +18,7 @@ function Folder({folders, files}: any) {
       <div className="w-full flex">
         <Sidebar />
         <div className="w-full flex flex-col ">
-          {folders.map((f: any, index: any) => {
+          {folders?.map((f: any, index: any) => {
             return (
               <div
                 key={index}
@@ -32,7 +32,7 @@ function Folder({folders, files}: any) {
               </div>
             );
           })}
-          {files.map((f: any, index: any) => {
+          {files?.map((f: any, index: any) => {
             return (
               <div
                 key={index}
@@ -58,10 +58,16 @@ export async function getServerSideProps(context: any) {
     const folderId = context.query.folder;
 
     const docRef = doc(db, 'folders', folderId);
-    const docData = await getDoc(docRef);
+    const docData = (await getDoc(docRef)).data();
 
+    const fileRef = collection(docRef, "files");
+    const files = (await getDocs(fileRef)).docs.map((file) => {
+        return [file.data()["name"]["name"], file.data()["url"]];
+    });
 
     return {
-        props: {}
+        props: {
+            name: docData?.['name'],
+        }
     }
 }
