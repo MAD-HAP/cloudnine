@@ -1,5 +1,5 @@
 import { Button, Link, Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useWidth } from "../hooks/useWidth";
 import {
     FolderShared,
@@ -25,6 +25,8 @@ function Sidebar() {
     const router = useRouter();
     const user = useSession();
     const width = useWidth();
+    const uploadRef = useRef<HTMLInputElement | null>(null);
+
     const [isExpanded, setIsExpanded] = useState(false);
     useEffect(() => {
         width > 1000 ? setIsExpanded(true) : setIsExpanded(false);
@@ -108,6 +110,7 @@ function Sidebar() {
                 boxShadow: "4px 0 2px -1px #888",
             }}
         >
+            <input type="file" hidden ref={uploadRef} />
             <Button
                 fullWidth
                 sx={{ justifyContent: "end" }}
@@ -167,7 +170,7 @@ function Sidebar() {
                             fontSize: "1.33rem",
                             color: "black",
                         }}
-                        href="groups"
+                        href="/groups"
                     >
                         {" "}
                         Groups{" "}
