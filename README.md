@@ -1,3 +1,25 @@
+> # Scenario : (Document Management System)
+> # Create an Application that can do below
+> - Integrate with google and sign-in / sign-up with google credentials into the application
+> - Provide a UI to upload a document
+> - Upload to be allowed only for signed-in users
+> - Provide an option to share the document with other google users (can take any gmail id)
+> - Initiate a mail from the application, intimating document has been shared.
+> - Create permissions for document as part of sharing. 
+> - Shared user should be able to login to the application and view/delete the shared documents.
+
+> # Must Have (Core Scenario): 
+> - Document Sharing Capability between users
+> - Google Integration
+> - Create groups and share documents/list of documents within the group. 
+
+> # Bonus Scenarios: 
+
+> - If a new user is added to the group, he should have access to all the shared documents. 
+> - Create new role and privileges.
+> - Permissions for the document: view only / download
+> - Preferably use Python and associated frameworks to build this. 
+> - Allow document editing
 
 # Cloud-Nine
 
@@ -6,7 +28,6 @@
 - Google or Github OAuth verified users can upload files to cloud and manage access rules.
 - Invite members by their username and define their access rights to read/write/delete that file.
 - Sync data in real-time for seamless sharing experience.
-
 
 
 ## Out-of-the-box features
