@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./ModalContainer.css";
 
 const ModalContainer = ({
   isOpen = true,

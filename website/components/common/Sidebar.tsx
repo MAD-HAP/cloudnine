@@ -8,6 +8,7 @@ import {
   ChevronRight,
   ChevronLeft,
 } from "@mui/icons-material";
+import ButtOn from "./ButtOn/ButtOn";
 
 function Sidebar() {
   const width = useWidth();
@@ -45,7 +46,11 @@ function Sidebar() {
       }}
     >
       <Button fullWidth sx={{justifyContent: 'end'}} onClick={()=>{setIsExpanded(false);}}><ChevronLeft /></Button>
-
+      
+      <br/>
+      <ButtOn>
+        Upload Files
+      </ButtOn>
       <Stack
         direction="column"
         spacing={2}
