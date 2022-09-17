@@ -59,13 +59,17 @@ export async function getServerSideProps(context: any) {
 
     const fileRef = collection(docRef, "files");
     const files = (await getDocs(fileRef)).docs.map((file) => {
-        return { name: file.data().name["name"], url: file.data()["url"] };
+        return [file.data()["name"]["name"], "file", file.data()["url"]];
+    });
+
+    const folders = docs?.["folders"].map((folder: any) => {
+        return [folder["name"], "folder", folder["id"]];
     });
 
     return {
         props: {
-            folders: docs?.["folders"],
-            files: files,
+            folders,
+            files,
         },
     };
 }
