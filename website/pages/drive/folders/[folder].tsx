@@ -4,6 +4,8 @@ import { Navbar } from "../../../components/common/Navbar";
 import Sidebar from "../../../components/common/Sidebar";
 import { useRouter } from "next/router";
 import { FileCopy, Folder as Fldr } from "@mui/icons-material";
+import Head from "next/head";
+import { db } from "../../../serverless/firebase";
 
 function Folder({folders, files}: any) {
     const router = useRouter();
