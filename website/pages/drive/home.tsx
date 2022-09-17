@@ -64,15 +64,19 @@ export async function getServerSideProps(context: any) {
   const docRef = doc(db, "users", user?.user?.email!);
   const docs = (await getDoc(docRef)).data();
 
-  const fileRef = collection(docRef, "files");
-  const files = (await getDocs(fileRef)).docs.map((file) => {
-    return { name: file.data().name["name"], url: file.data()["url"] };
-  });
+    const fileRef = collection(docRef, "files");
+    const files = (await getDocs(fileRef)).docs.map((file) => {
+        return [file.data()["name"]["name"], "file", file.data()["url"]];
+    });
 
-  return {
-    props: {
-      folders: docs?.["folders"] == null ? [] : docs?.["folders"],
-      files: files,
-    },
-  };
+    const folders = docs?.["folders"].map((folder: any) => {
+        return [folder["name"], "folder", folder["id"]];
+    });
+
+    return {
+        props: {
+            folders,
+            files,
+        },
+    };
 }
