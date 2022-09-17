@@ -221,7 +221,7 @@ function Sidebar() {
                             fontSize: "1.33rem",
                             color: "black",
                         }}
-                        href="groups"
+                        href="/groups"
                     >
                         {" "}
                         Groups{" "}
