@@ -34,17 +34,18 @@ export default function AddToGroup({ group, owner, open, close, link }: any) {
   const submit = (e: any) => {
     e.preventDefault();
     //update firebase, add person to group
-    console.log(form.current)
+    console.log(form.current);
     //group, owner, link, email
     AddedToGroup(form.current);
   };
   return (
     <ModalContainer open={open} close={close}>
       <br />
-      <br />
+      <p className="text-3xl">Add Members to your Group</p>
       <form ref={form}>
-        Add members to the group: <input name="group" value={group} /> <br/>
+        Add members to the group: <input name="group" value={group} /> <br />
         Owner: <input name="owner" value={owner} /> <br />
+        <br />
         <br />
         <TextField
           label="Email"
@@ -83,8 +84,8 @@ export default function AddToGroup({ group, owner, open, close, link }: any) {
           label="Delete"
           control={<Checkbox checked={del} onChange={handleChangeDel} />}
         />
-        <br/> <br/>
-        Generated link: <input name="link" value={link}/> <br/> <br/>
+        <br /> <br />
+        Generated link: <input name="link" value={link} /> <br /> <br />
         <ButtOn onClick={submit}>Add Member</ButtOn>
       </form>
     </ModalContainer>
