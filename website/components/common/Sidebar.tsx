@@ -18,16 +18,62 @@ import {
     getDoc,
     setDoc,
 } from "firebase/firestore";
-import { db } from "../../serverless/firebase";
+import { db, storage } from "../../serverless/firebase";
 import { useSession } from "next-auth/react";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 function Sidebar() {
     const router = useRouter();
     const user = useSession();
     const width = useWidth();
     const uploadRef = useRef<HTMLInputElement | null>(null);
-
+    const [imageToPost, setImageToPost] = useState<any>(null);
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const addImageToFile = (e: any) => {
+        const reader = new FileReader();
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0]);
+        }
+        reader.onload = (readerEvent) => {
+            // console.log(readerEvent.target);
+            setImageToPost(readerEvent.target?.result);
+        };
+    };
+
+    const uploadSomething = async (name: string) => {
+        // console.log("object");
+        if (imageToPost) {
+            const storageRef = ref(storage, `media/${user?.data?.user?.email}`);
+            uploadString(storageRef, imageToPost, "data_url").then(() => {
+                getDownloadURL(
+                    ref(storage, `media/${user?.data?.user?.email}`)
+                ).then((url) => {
+                    const path = router.pathname;
+                    if (path === "/drive/home") {
+                        addDoc(collection(db, `/users/${user?.data?.user?.email}/files`), {
+                            name: { name },
+                            link: { url },
+                        });
+                    } else {
+                        while (!router.isReady) {
+                            continue;
+                        }
+                        addDoc(collection(db, `folders/${router.query.folder}/files`), {
+                            name: { name },
+                            perms: {
+                                todo: "todo"
+                            },
+                        });
+                    }
+                });
+            });
+        }
+        else {
+            console.log("Nothing to upload");
+        }
+    }
+
     useEffect(() => {
         width > 1000 ? setIsExpanded(true) : setIsExpanded(false);
     }, []);
@@ -80,8 +126,12 @@ function Sidebar() {
         }
     };
     const addFile = () => {
-        // TODO
+        uploadRef.current?.click();
     };
+
+    const upload = () => {
+        uploadSomething("harsh");
+    }
     if (!isExpanded) {
         return (
             <>
@@ -110,7 +160,7 @@ function Sidebar() {
                 boxShadow: "4px 0 2px -1px #888",
             }}
         >
-            <input type="file" hidden ref={uploadRef} />
+            <input type="file" hidden ref={uploadRef} onChange={addImageToFile} />
             <Button
                 fullWidth
                 sx={{ justifyContent: "end" }}
@@ -124,6 +174,7 @@ function Sidebar() {
             <br />
             <ButtOn onClick={addFile}>Upload Files</ButtOn>
             <ButtOn onClick={addFolder}>Create Folder</ButtOn>
+            <button onClick={upload}>submit</button>
             <Stack
                 direction="column"
                 spacing={2}
