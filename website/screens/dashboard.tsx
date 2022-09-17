@@ -21,7 +21,7 @@ function DashBoard() {
                     {
                         stuff.length > 0 && (
                             <>
-                                <div className="font-bold text-[20px] p-[10px]">
+                                <div className="font-bold text-[20px] p-[20px]">
                                     Owned by me
                                 </div>
                                 <Grid container spacing={6} className="w-[100%] m-[10px]">
@@ -47,7 +47,7 @@ function DashBoard() {
 
                                             return (
                                                 <Grid item xs={2}>
-                                                    <div className="flex flex-col items-center shadow-md" >
+                                                    <div className="flex flex-col items-center shadow-md p-[10px] hover:cursor-pointer hover:bg-gray-50 hover:shadow-xl duration-[400]" >
 
                                                         <Image src={icon} alt="File" height={80} width={80} />
                                                         <div className="w-[100%] h-[20px] overflow-x-hidden text-center">

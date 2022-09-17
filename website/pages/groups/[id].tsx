@@ -6,6 +6,7 @@ import {Navbar} from "../../components/common/Navbar";
 import {useDocument} from "react-firebase-hooks/firestore";
 import Lottie from "react-lottie-player";
 import emptybox from '../../public/assets/emptybox.json'
+import Head from "next/head";
 
 const Group = () => {
     const router = useRouter()
@@ -18,12 +19,22 @@ const Group = () => {
     },[])
     return (
         <div>
+            <Head>
+                <title>
+                    {
+                        snapshot ? (snapshot.exists() ? snapshot.data().name : "Group Not Found") :  "Loading"
+                    }
+                </title>
+            </Head>
             <Navbar />
             {
                 snapshot && snapshot.exists() && (
-                    <div>
-                        <div className="m-[10px] font-bold text-[30px]">
+                    <div className="m-[20px]">
+                        <div className="font-bold text-[50px]">
                             {snapshot.data().name}
+                        </div>
+                        <div>
+                            <div className="">Members</div>
                         </div>
                     </div>
                 )
@@ -41,7 +52,6 @@ const Group = () => {
                             }} />
                         <div className="m-[20px] font-bold text-[25px]">
                             Group Not Found
-                            {/*{snapshot.data().name}*/}
                         </div>
                     </div>
                 )
