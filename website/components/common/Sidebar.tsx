@@ -44,7 +44,7 @@ function Sidebar() {
         boxShadow: "4px 0 2px -1px #888",
       }}
     >
-      <Button fullWidth sx={{alignContent: 'right'}} onClick={()=>{setIsExpanded(false);}}><ChevronLeft /></Button>
+      <Button fullWidth sx={{justifyContent: 'end'}} onClick={()=>{setIsExpanded(false);}}><ChevronLeft /></Button>
 
       <Stack
         direction="column"
