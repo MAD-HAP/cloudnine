@@ -6,13 +6,11 @@ import {
     Groups2,
     ListAlt,
     ChevronRight,
-    ChevronLeft, Add,
+    ChevronLeft,
 } from "@mui/icons-material";
 import {useSession} from "next-auth/react";
-import {db} from "../../serverless/firebase";
-import {doc, DocumentSnapshot, getDoc, setDoc} from "@firebase/firestore";
-import {DataSnapshot} from "@firebase/database";
 import {useRouter} from "next/router";
+import ButtOn from "./ButtOn/ButtOn";
 
 function Sidebar() {
   const width = useWidth();
@@ -52,7 +50,11 @@ function Sidebar() {
       }}
     >
       <Button fullWidth sx={{justifyContent: 'end'}} onClick={()=>{setIsExpanded(false);}}><ChevronLeft /></Button>
-
+      
+      <br/>
+      <ButtOn>
+        Upload Files
+      </ButtOn>
       <Stack
         direction="column"
         spacing={2}
