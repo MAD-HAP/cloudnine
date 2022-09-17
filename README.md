@@ -25,7 +25,8 @@
 
 ### Document Management System
 
-- Google or Github OAuth verified users can upload nested folder containers containing files to cloud and manage access rules.
+- Create or Login using Google OAuth verification.
+- Verified users can upload nested folder containers containing files to cloud and manage access rules.
 - Invite members by their username and define their access rights to read/write/delete that file.
 - Sync data in real-time for seamless sharing experience.
 
