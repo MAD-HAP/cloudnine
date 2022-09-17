@@ -10,6 +10,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.5",
+    "firebase": "^9.10.0",
     "next": "latest",
     "next-auth": "^4.10.3",
     "react": "18.1.0",
