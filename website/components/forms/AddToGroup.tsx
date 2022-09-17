@@ -9,14 +9,19 @@ import { ContactMailSharp } from "@mui/icons-material";
 import ModalContainer from "../common/ModalContainer/ModalContainer";
 import ButtOn from "../common/ButtOn/ButtOn";
 import { AddedToGroup } from "../../services/AddedToGroup";
+import {useCollectionData} from "react-firebase-hooks/firestore";
+import {arrayUnion, collection, doc, setDoc} from "firebase/firestore";
+import {db} from "../../serverless/firebase";
+import {DocumentData, query} from "@firebase/firestore";
 
-export default function AddToGroup({ group, owner, open, close, link }: any) {
+export default function AddToGroup({ id, group, owner, open, close, link }: any) {
   const form = useRef(null);
   const [email, setEmail] = useState("");
   const [read, setRead] = useState(false);
   const [write, setWrite] = useState(false);
   const [download, setDownload] = useState(false);
   const [del, setDel] = useState(false);
+  const [users] = useCollectionData(query(collection(db,"users")))
 
   const handleChangeRead = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRead(e.target.checked);
@@ -34,16 +39,42 @@ export default function AddToGroup({ group, owner, open, close, link }: any) {
   const submit = (e: any) => {
     e.preventDefault();
     //update firebase, add person to group
-    console.log(form.current);
+
+    if(group.members.find((member : any)=> member.email===email)) {
+      alert("User is already present in the group")
+      return
+    }
+
+    let user = users?.find((data : DocumentData)=> data.email===email)
+
+    if(!user) {
+      alert("User with this email does not exist")
+      return
+    }
+
+    setDoc(doc(db,"Groups",id), {
+      members : arrayUnion({
+        email : email,
+        image : user.image,
+        read : read,
+        write : write,
+        download : download,
+        delete : del
+      })
+    },{
+      merge : true
+    }).finally(()=> close())
+
+    console.log(form.current)
     //group, owner, link, email
     AddedToGroup(form.current);
   };
   return (
-    <ModalContainer open={open} close={close}>
+    <ModalContainer isOpen={open} close={close}>
       <br />
       <p className="text-3xl">Add Members to your Group</p>
       <form ref={form}>
-        Add members to the group: <input name="group" value={group} /> <br />
+        Add members to the group: <input name="group" value={group.name} /> <br/>
         Owner: <input name="owner" value={owner} /> <br />
         <br />
         <br />

@@ -1,0 +1,124 @@
+<html>
+
+<head>
+  <style>
+    .container {
+      margin: 15px auto;
+      width: 60rem;
+      /* border: 1px rgb(85, 85, 85) solid; */
+      border-radius: 10px;
+      box-shadow: 0 0 1rem rgb(51, 51, 51);
+    }
+
+    .container-inner {
+      margin: 0 auto;
+      width: 80%;
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div>
+      <div id="header" class="container">
+        <div class="container-inner">
+          <p>base64：<input type="file" id="file-selection" onchange="fileSelected()" />
+            <h2>
+        </div>
+      </div>
+
+      <div id="content" class="container">
+        <div class="container-inner">
+          <h2>base64：</h2>
+          <div id="file-info">
+            <div id="file-name">Yes</div>
+            <div><span id="file-size">0.0 KB</span> <span id="file-size-warning" style="display: none;">This file is
+                large
+                and
+                the resulting base64 string will be very cumbersome.</span></div>
+            <div>Mimetype: <span id="file-type">application/octet-stream</span></div>
+            <textarea id="file-base64-data" contenteditable="true"
+              style="width: 100%;height: 300px;">data:application/octet-stream;base64,</textarea>
+            <button onclick="base64Change()">base64Change</button>
+            <button onclick="downloadFile(document.getElementById('file-base64-data').value)">Download</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="header" class="container">
+        <div class="container-inner">
+          <h2>Yes again：</h2>
+          <div id="file-thumb-container">
+            <!-- <img id="file-thumb" src="" style="width: 100%;"/> -->
+            <iframe id="file-thumb" src="data:application/pdf;base64,YOUR_BINARY_DATA" height="300px"
+              width="100%"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+<script>
+  function formatSize(size) {
+    if (size <= 1024) {
+      return size.toFixed(1) + " B";
+    } else if (size <= 1024576) {
+      return (size / 1024).toFixed(1) + " KB";
+    } else if (size <= 1073741824) {
+      return (size / 1024576).toFixed(1) + " MB";
+    }
+  }
+
+  function base64Read(result) {
+    console.log(result);
+    document.getElementById("file-base64-data").textContent = result;
+    document.getElementById("file-thumb").src = result;
+  }
+
+  function fileSelected() {
+    var elem = document.getElementById("file-selection");
+    var files = elem.files;
+    if (files.length == 0)
+      return;
+    var file = files[0];
+    var name = file.name;
+    var size = file.size;
+    var mime = file.type;
+    var isImage = /^image\//.test(mime);
+    document.getElementById("file-name").textContent = name;
+    document.getElementById("file-size").textContent = formatSize(size);
+    // if (size > 2048) {
+    //   document.getElementById("file-size-warning").style.display = "initial";
+    // } else {
+    //   document.getElementById("file-size-warning").style.display = "none";
+    // }
+    document.getElementById("file-type").textContent = mime;
+    document.getElementById("file-base64-data").textContent = "Loading...";
+    var reader = new FileReader();
+    console.log(reader.result);
+    reader.onload = function () {
+      base64Read(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function base64Change() {
+    let base64 = document.getElementById("file-base64-data").value;
+    document.getElementById("file-thumb").src = base64;
+  }
+
+  function downloadFile(base64) {
+    const linkSource = base64;
+    const downloadLink = document.createElement("a");
+    const fileName = "test";
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
+  }
+</script>
+
+</html>
