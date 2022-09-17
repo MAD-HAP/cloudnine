@@ -1,16 +1,14 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import {Navbar} from "../components/common/Navbar";
-import Sidebar from '../components/common/Sidebar';
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import { Navbar } from "../components/common/Navbar";
+import { SessionProvider } from "next-auth/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-      <div>
-        <Navbar />
-        <Sidebar />
-        <Component {...pageProps} />
-      </div>
-  )
+    return (
+        <SessionProvider>
+            <Component {...pageProps} />
+        </SessionProvider>
+    );
 }
 
-export default MyApp
+export default MyApp;
