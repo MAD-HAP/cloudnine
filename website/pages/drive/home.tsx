@@ -37,16 +37,16 @@ function Home({ folders, files }: any) {
         <div className="w-full flex flex-col ">
           {folders.map((f: any, index: any) => {
             return (
-              <div key={index} className="flex flex-row justify-evenly w-full" onClick={() => window.location.href = f[2]}>
-                {f[2] === "folder" ? <Folder /> : <FileCopy />}
+              <div key={index} className="flex flex-row justify-evenly w-full" onClick={() => {router.push(`/drive/folders/${f[1]}`)}}>
+                <Folder />
                 <p className="text-2xl"> {f[0]} </p>
               </div>
             );
           })}
           {files.map((f: any, index: any) => {
             return (
-              <div key={index} className="flex flex-row justify-evenly w-full" onClick={() => router.push(f[2])}>
-                {f[2] === "folder" ? <Folder /> : <FileCopy />}
+              <div key={index} className="flex flex-row justify-evenly w-full" onClick={() => {window.location.href = f[1]}}>
+                <FileCopy />
                 <p className="text-2xl"> {f[0]} </p>
               </div>
             );
@@ -66,11 +66,11 @@ export async function getServerSideProps(context: any) {
 
     const fileRef = collection(docRef, "files");
     const files = (await getDocs(fileRef)).docs.map((file) => {
-        return [file.data()["name"]["name"], "file", file.data()["url"]];
+        return [file.data()["name"]["name"], file.data()["url"]];
     });
 
     const folders = docs?.["folders"].map((folder: any) => {
-        return [folder["name"], "folder", folder["id"]];
+        return [folder["name"], folder["id"]];
     });
 
     return {
