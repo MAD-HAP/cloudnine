@@ -52,7 +52,8 @@ const Group = () => {
                             <div className="">Members</div>
                         </div>
                         <AddToGroup
-                            group={snapshot?.data()?.name}
+                            id={id}
+                            group={snapshot?.data()}
                             owner={snapshot?.data()?.creator}
                             open={open}
                             close={() => setOpen(false)}
