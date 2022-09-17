@@ -6,13 +6,12 @@ import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../serverless/firebase";
 import { getSession, useSession } from "next-auth/react";
 import { FileCopy, Folder } from "@mui/icons-material";
+import {Link} from '@mui/material';
+import { useRouter } from "next/router";
 
 function Home({ folders, files }: any) {
   const { data: session, status } = useSession();
-  const [fsStruct, setFsStruct] = useState([
-    ["degree.pdf", "Baldev Setia", "folder"],
-    ["degree.pdf", "Baldev Setia", "file"],
-  ]);
+  const router = useRouter();
 
   useEffect(() => {
     if (!session?.user?.email) return;
@@ -27,12 +26,6 @@ function Home({ folders, files }: any) {
     );
   }, [session]);
 
-  useEffect( () => {
-    folders.map((fld: any) => {
-      fsStruct.push([fld.name, "folder", fld.id])
-    })
-  }, [])
-  
   return (
     <div className="h-screen w-screen overflow-hidden flex flex-col">
       <Head>
@@ -42,12 +35,19 @@ function Home({ folders, files }: any) {
       <div className="w-full flex">
         <Sidebar />
         <div className="w-full flex flex-col ">
-          {fsStruct.map((f, index) => {
+          {folders.map((f: any, index: any) => {
             return (
-              <div className="flex flex-row justify-evenly w-full">
+              <div key={index} className="flex flex-row justify-evenly w-full" onClick={() => window.location.href = f[2]}>
                 {f[2] === "folder" ? <Folder /> : <FileCopy />}
                 <p className="text-2xl"> {f[0]} </p>
-                <p className="text-2xl"> {f[1]} </p>
+              </div>
+            );
+          })}
+          {files.map((f: any, index: any) => {
+            return (
+              <div key={index} className="flex flex-row justify-evenly w-full" onClick={() => router.push(f[2])}>
+                {f[2] === "folder" ? <Folder /> : <FileCopy />}
+                <p className="text-2xl"> {f[0]} </p>
               </div>
             );
           })}
