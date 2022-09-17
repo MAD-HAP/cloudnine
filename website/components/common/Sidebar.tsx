@@ -89,7 +89,7 @@ function Sidebar() {
           <Groups2 sx={{ height: "40px", width: "40px" }} />{" "}
           <Link
             style={{ textDecoration: "none", fontSize: "1.33rem", color: "black" }}
-            href="groups"
+            href="/groups"
           >
             {" "}
             Groups{" "}
