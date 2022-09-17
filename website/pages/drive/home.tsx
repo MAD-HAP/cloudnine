@@ -59,7 +59,7 @@ export async function getServerSideProps(context: any) {
 
     const fileRef = collection(docRef, "files");
     const files = (await getDocs(fileRef)).docs.map((file) => {
-        return { name: file.data().name["name"], url: file.data().link["url"] };
+        return { name: file.data().name["name"], url: file.data()["url"] };
     });
 
     return {
