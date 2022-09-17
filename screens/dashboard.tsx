@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import { signOut } from "next-auth/react";
 
 function DashBoard() {
-  return (
-    <div>DashBoard</div>
-  )
+    return (
+        <div>
+            <p>DashBoard</p>
+            <button onClick={() => signOut()}>signout</button>
+        </div>
+    );
 }
 
-export default DashBoard
+export default DashBoard;
