@@ -83,31 +83,6 @@ function Sidebar() {
             Shared{" "}
           </Link>
         </div>
-          <div>
-              <Add sx={{ height: "40px", width: "40px" }} />{" "}
-              <div
-                  style={{ textDecoration: "none", fontSize: "1.33rem", color: "black" }}
-                  onClick={()=>{
-                      // @ts-ignore
-                      let name : string = prompt("enter name")
-                      getDoc(doc(db,"Groups",name===null ? "" : name)).then((snap : DocumentSnapshot)=>{
-                          if(snap.exists()) {
-                              alert("Group with this name already exists")
-                          }
-                          else {
-                              setDoc(doc(db,"Groups",name),{
-                                  name : name
-                              }).then(r=>{
-                                  router.push(`/groups/${name}`)
-                              }).catch(error=> console.log(error))
-                          }
-                      })
-                  }}
-              >
-                  {" "}
-                  Add Group{" "}
-              </div>
-          </div>
         <div>
           <Groups2 sx={{ height: "40px", width: "40px" }} />{" "}
           <Link
