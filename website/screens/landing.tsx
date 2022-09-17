@@ -8,6 +8,7 @@ function Landing() {
             <div>
                 {/* TODO */}
                 {/* navbar */}
+                <button onClick={() => signIn()}>Login</button>
                 <div className="flex flex-row p-[10px] shadow items-center">
             {width > 800 ? (
                 <img
