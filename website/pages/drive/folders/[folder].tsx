@@ -32,7 +32,7 @@ function Folder({ folders, files }: any) {
         setFolder(router.query.folder)
     },[router])
 
-    console.log(folders?.data())
+    // console.log(folders?.data())
     return (
         <div className="h-screen w-screen overflow-hidden flex flex-col">
             <Head>
@@ -85,15 +85,17 @@ function Folder({ folders, files }: any) {
                                 }
                                 return (
                                     <Grid item xs={2}>
-                                        <div className="flex flex-col items-center shadow-md p-[10px] hover:cursor-pointer hover:bg-gray-50 hover:shadow-xl duration-[400]" >
+                                        <Link href={f[1]}>
+                                            <div className="flex flex-col items-center shadow-md p-[10px] hover:cursor-pointer hover:bg-gray-50 hover:shadow-xl duration-[400]" >
 
-                                            <Image src={icon} alt="File" height={80} width={80} />
-                                            <div className="w-[100%] h-[20px] text-center">
-                                                {
-                                                    f[0]
-                                                }
+                                                <Image src={icon} alt="File" height={80} width={80} />
+                                                <div className="w-[100%] h-[20px] text-center">
+                                                    {
+                                                        f[0]
+                                                    }
+                                                </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     </Grid>
                                 )
                             })
