@@ -38,6 +38,9 @@
 - Create groups and invite members to instantly share a file with pre-defined methods.
 - Ability for verification of invited member using face recognition to avoid data leak.
 
+
+### High Level Diagram
+
 ## Tech Stack  
 
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
@@ -59,4 +62,20 @@ Install frontend with yarn
   yarn dev
 ```
 
-    
+ ## Screenshots
+ 
+ - Google OAuth service for verification
+ 
+ 
+![unknown](https://user-images.githubusercontent.com/78641951/190884456-c6810a00-5ac1-4bb1-838a-71de2e96bf5c.png)
+![unknown2](https://user-images.githubusercontent.com/78641951/190884457-da2b8e51-d996-4fec-8604-39c46706f533.png)
+
+
+- Dashboard to upload files from browser or create nested folders.
+![unknown](https://user-images.githubusercontent.com/78641951/190884520-33118fc7-23f3-411d-a179-4d21f033d003.png)
+![unknown2](https://user-images.githubusercontent.com/78641951/190884521-977f1c7d-9535-404d-9071-d2069aecaf98.png)
+![unknown3](https://user-images.githubusercontent.com/78641951/190884524-a1d321d2-0ee1-4982-902e-8408d0f8538c.png)
+
+
+
+- Creating workspaces/groups to collaborate on files instantly.
