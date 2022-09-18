@@ -6,12 +6,16 @@ import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../serverless/firebase";
 import { getSession, useSession } from "next-auth/react";
 import { FileCopy, Folder } from "@mui/icons-material";
-import { Link } from "@mui/material";
+import {Grid, Link} from "@mui/material";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 function Home({ folders, files }: any) {
     const { data: session, status } = useSession();
     const router = useRouter();
+
+    console.log(folders)
+    console.log(files)
 
     useEffect(() => {
         if (!session?.user?.email) return;
@@ -35,34 +39,64 @@ function Home({ folders, files }: any) {
             <div className="w-full flex">
                 <Sidebar />
                 <div className="w-full flex flex-col ">
-                    {folders?.map((f: any, index: any) => {
-                        return (
-                            <div
-                                key={index}
-                                className="flex flex-row justify-evenly w-full"
-                                onClick={() => {
-                                    router.push(`/drive/folders/${f[1]}`);
-                                }}
-                            >
-                                <Folder />
-                                <p className="text-2xl"> {f[0]} </p>
-                            </div>
-                        );
-                    })}
-                    {files?.map((f: any, index: any) => {
-                        return (
-                            <div
-                                key={index}
-                                className="flex flex-row justify-evenly w-full"
-                                onClick={() => {
-                                    window.location.href = f[1];
-                                }}
-                            >
-                                <FileCopy />
-                                <p className="text-2xl"> {f[0]} </p>
-                            </div>
-                        );
-                    })}
+                    <Grid container spacing={6} className="w-[100%] m-[10px]">
+                        {
+                            folders.map((f: any, index: any)=> {
+
+                                return (
+                                    <Grid item xs={2}>
+                                        <Link href={`/drive/folders/${f[1]}`}>
+                                            <div className="flex flex-col items-center shadow-md p-[10px] hover:cursor-pointer hover:bg-gray-50 hover:shadow-xl duration-[400]" >
+
+                                                <Image src="/assets/icons/folder.png" alt="File" height={80} width={80} />
+                                                <div className="w-[100%] h-[20px] text-center">
+                                                    {
+                                                        f[0]
+                                                    }
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </Grid>
+                                )
+                            })
+                        }
+                        {
+                            files.map((f: any, index: any)=> {
+                                let icon = "/assets/icons/file.png"
+                                let s = f[0]
+                                if(s.endsWith("pdf")) {
+                                    icon = "/assets/icons/pdf.png"
+                                }
+                                else if(s.endsWith("doc") || s.endsWith("docx")) {
+                                    icon = "/assets/icons/doc.png"
+                                }
+                                else if(s.endsWith("jpg")) {
+                                    icon = "/assets/icons/jpg.png"
+                                }
+                                else if(s.endsWith("xls") || s.endsWith("xlsx")) {
+                                    icon = "/assets/icons/xls.png"
+                                }
+                                else if(s.endsWith("txt")) {
+                                    icon = "/assets/icons/txt.png"
+                                }
+                                return (
+                                    <Grid item xs={2}>
+                                        <Link href={f[1]}>
+                                            <div className="flex flex-col items-center shadow-md p-[10px] hover:cursor-pointer hover:bg-gray-50 hover:shadow-xl duration-[400]" >
+
+                                                <Image src={icon} alt="File" height={80} width={80} />
+                                                <div className="w-[100%] h-[20px] text-center">
+                                                    {
+                                                        f[0]
+                                                    }
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </Grid>
+                                )
+                            })
+                        }
+                    </Grid>
                 </div>
             </div>
         </div>

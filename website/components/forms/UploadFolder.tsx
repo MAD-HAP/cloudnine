@@ -10,6 +10,10 @@ export default function UploadFolder({
 }: any) {
   const [filename, setFilename] = useState("");
   const upload = () => {
+    if(filename==="") {
+      alert("Name can't be empty")
+      return
+    }
     addFolder(filename)
   }
   return (
