@@ -22,6 +22,7 @@ import { db, storage } from "../../serverless/firebase";
 import { useSession } from "next-auth/react";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import UploadFile from "../forms/UploadFile";
+import UploadFolder from "../forms/UploadFolder";
 
 function Sidebar() {
   const router = useRouter();
@@ -31,6 +32,7 @@ function Sidebar() {
   const [imageToPost, setImageToPost] = useState<any>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
+  const [folderOpen, setFolderOpen] = useState(false);
 
   const addImageToFile = (e: any) => {
     const reader = new FileReader();
@@ -108,11 +110,11 @@ function Sidebar() {
   useEffect(() => {
     width > 1000 ? setIsExpanded(true) : setIsExpanded(false);
   }, []);
-  const addFolder = () => {
+  const addFolder = (n: any) => {
     const path = router.pathname;
     if (path === "/drive/home") {
       addDoc(collection(db, "folders"), {
-        name: "Name",
+        name: n,
         perms: "kjagdfkdv",
       }).then(async (docRef) => {
         const id = docRef.id;
@@ -155,15 +157,12 @@ function Sidebar() {
         );
       });
     }
+    setFolderOpen(false);
   };
   const addFile = () => {
     setUploadOpen(true);
-    // uploadRef.current?.click();
   };
 
-  const upload = () => {
-    uploadSomething("harsh");
-  };
   if (!isExpanded) {
     return (
       <>
@@ -193,6 +192,7 @@ function Sidebar() {
       }}
     >
       <UploadFile uploadSomething={uploadSomething} addImageToFile={addImageToFile} open={uploadOpen} close={()=>setUploadOpen(false)}/>
+      <UploadFolder addFolder={addFolder} open={folderOpen} close={()=>setFolderOpen(false)} />
       <input type="file" hidden ref={uploadRef} onChange={addImageToFile} />
       <Button
         fullWidth
@@ -216,7 +216,7 @@ function Sidebar() {
         }}
       >
         <ButtOn onClick={addFile}>Upload Files</ButtOn>
-        <ButtOn onClick={addFolder}>Create Folder</ButtOn> <br />
+        <ButtOn onClick={()=>setFolderOpen(true)}>Create Folder</ButtOn> <br />
         <br />
         <div>
           <ListAlt sx={{ height: "40px", width: "40px" }} />{" "}
