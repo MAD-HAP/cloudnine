@@ -39,7 +39,7 @@ export default function AddToGroup({ file, owner, open, close, link }: any) {
     SharedFile(form.current);
   };
   return (
-    <ModalContainer open={open} close={close}>
+    <ModalContainer isOpen={open} close={close}>
       <p className="text-3xl">Sharing of files</p>
       <form ref={form}>
         Sharing a file with others: <input name="file" value={file} /> <br/>
