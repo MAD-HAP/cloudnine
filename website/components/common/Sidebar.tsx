@@ -23,6 +23,7 @@ import { useSession } from "next-auth/react";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import UploadFile from "../forms/UploadFile";
 import UploadFolder from "../forms/UploadFolder";
+import {LoadingDialog} from "./LoadingDialog";
 
 function Sidebar() {
   const router = useRouter();
@@ -33,6 +34,7 @@ function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
   const [folderOpen, setFolderOpen] = useState(false);
+  const [loadingOpen, setLoadingOpen] = useState(false)
 
   const addImageToFile = (e: any) => {
     const reader = new FileReader();
@@ -47,6 +49,7 @@ function Sidebar() {
   
   const uploadSomething = async (name: string) => {
     // console.log("object"); working till here
+    setLoadingOpen(true)
     if (imageToPost) {
       const path = router.pathname;
       if (path === "/drive/home") {
@@ -69,7 +72,7 @@ function Sidebar() {
                 {
                   merge: true,
                 }
-              );
+              ).finally(()=>{setLoadingOpen(false)});
             });
           });
         });
@@ -96,7 +99,7 @@ function Sidebar() {
                 {
                   merge: true,
                 }
-                );
+                ).finally(()=> setLoadingOpen(false));
             });
           });
         });
@@ -111,6 +114,7 @@ function Sidebar() {
     width > 1000 ? setIsExpanded(true) : setIsExpanded(false);
   }, []);
   const addFolder = (n: any) => {
+    setLoadingOpen(true)
     const path = router.pathname;
     if (path === "/drive/home") {
       addDoc(collection(db, "folders"), {
@@ -130,7 +134,7 @@ function Sidebar() {
           {
             merge: true,
           }
-        );
+        ).finally(()=>{setLoadingOpen(false)});
       });
     } else {
       while (!router.isReady) {
@@ -154,7 +158,7 @@ function Sidebar() {
           {
             merge: true,
           }
-        );
+        ).finally(()=>{setLoadingOpen(false)});
       });
     }
     setFolderOpen(false);
@@ -261,6 +265,7 @@ function Sidebar() {
           </Link>
         </div>
       </Stack>
+      <LoadingDialog open={loadingOpen} onClose={()=> {}} />
     </div>
   );
 }

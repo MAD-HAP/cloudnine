@@ -3,6 +3,7 @@ import { Close, Info, Search, Settings } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export const Navbar = () => {
     const { data: session, status } = useSession();
@@ -23,19 +24,21 @@ export const Navbar = () => {
 
     return (
         <div className="flex flex-row p-[10px] shadow items-center">
-            {width > 800 ? (
-                <img
-                    src="/cloudnine-big.svg"
-                    className="h-[60px] w-auto rounded-[50%]"
-                    alt="Cloud Nine"
-                />
-            ) : (
-                <img
-                    src="/cloudnine.svg"
-                    className="h-[60px] w-auto rounded-[50%]"
-                    alt="Cloud Nine"
-                />
-            )}
+            <Link href="/">
+                {width > 800 ? (
+                    <img
+                        src="/cloudnine-big.svg"
+                        className="h-[60px] w-auto rounded-[50%]"
+                        alt="Cloud Nine"
+                    />
+                ) : (
+                    <img
+                        src="/cloudnine.svg"
+                        className="h-[60px] w-auto rounded-[50%]"
+                        alt="Cloud Nine"
+                    />
+                )}
+            </Link>
             {width > 800 && (
                 <div className="text-[20px] ml-[5px] font-bold">Cloud Nine</div>
             )}

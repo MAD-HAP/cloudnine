@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const ModalContainer = ({
-  isOpen = true,
+  isOpen,
   children,
   className,
   close,
