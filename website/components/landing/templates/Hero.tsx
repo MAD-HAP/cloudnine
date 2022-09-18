@@ -6,6 +6,8 @@ import { HeroOneButton } from '../hero/HeroOneButton';
 import { Section } from '../layout/Section';
 import { NavbarTwoColumns } from '../navigation/NavbarTwoColumns';
 import { Logo } from './Logo';
+import {signIn} from "next-auth/react";
+import ButtOn from "../../common/ButtOn/ButtOn";
 
 const Hero = () => (
   <Background color="bg-gray-100">
@@ -17,9 +19,9 @@ const Hero = () => (
           </Link>
         </li>
         <li>
-          <Link href="/">
-            <a>Sign in</a>
-          </Link>
+          <ButtOn onClick={()=>signIn()}>
+            Sign in
+          </ButtOn>
         </li>
       </NavbarTwoColumns>
     </Section>
