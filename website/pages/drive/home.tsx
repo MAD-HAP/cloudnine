@@ -41,7 +41,7 @@ function Home({ folders, files }: any) {
                 <div className="w-full flex flex-col ">
                     <Grid container spacing={6} className="w-[100%] m-[10px]">
                         {
-                            folders.map((f: any, index: any)=> {
+                            folders?.map((f: any, index: any)=> {
 
                                 return (
                                     <Grid item xs={2}>
