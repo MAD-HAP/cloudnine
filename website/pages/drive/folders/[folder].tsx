@@ -1,23 +1,22 @@
 import React, {useEffect, useState} from "react";
 import { Navbar } from "../../../components/common/Navbar";
 import Sidebar from "../../../components/common/Sidebar";
-import ButtOn from "../../../components/common/ButtOn/ButtOn";
 import AddToGroup from "../../../components/forms/ShareFile";
 import {useRouter} from "next/router";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { FileCopy, Folder as Fldr } from "@mui/icons-material";
+import {Share} from "@mui/icons-material";
 import Head from "next/head";
 import { db } from "../../../serverless/firebase";
-import {Grid} from "@mui/material";
+import {Fab, Grid} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import {useCollectionData, useDocument} from "react-firebase-hooks/firestore";
-import {query} from "@firebase/firestore";
+import ShareFolder from "../../../components/forms/ShareFolder";
 
 function Folder({ folders, files }: any) {
     const [open,setOpen] = useState(false)
     const router = useRouter()
     const [folder,setFolder] = useState("a")
+    const [shareOpen,setShareOpen] = useState(false)
 
     // const [folders] = useDocument(doc(db,"folders",folder))
     // @ts-ignore
@@ -41,7 +40,14 @@ function Folder({ folders, files }: any) {
             <Navbar />
             <div className="w-full flex">
                 <Sidebar />
-                <div className="w-full flex flex-col ">
+                <div className="w-full flex flex-col">
+                    <div className="flex flex-row ml-[20px] mt-[20px]">
+                        <div className="font-bold text-[25px] flex-auto">Files and folders</div>
+                        <Fab variant="extended" className="flex-end mx-[10px]" onClick={()=> setShareOpen(true)}>
+                            <Share />
+                            Share
+                        </Fab>
+                    </div>
                     <Grid container spacing={6} className="w-[100%] m-[10px]">
                         {
                             folders?.map((f: any, index: any)=> {
@@ -108,6 +114,11 @@ function Folder({ folders, files }: any) {
                 open={open}
                 close={()=>setOpen(false)}
                 link={"http://localhost:3000/" + router.asPath} />
+            <ShareFolder
+                file={folder}
+                open={shareOpen}
+                close={()=>setShareOpen(false)}
+                />
         </div>
     );
 }

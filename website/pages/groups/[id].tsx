@@ -8,11 +8,12 @@ import Lottie from "react-lottie-player";
 import emptybox from '../../public/assets/emptybox.json'
 import Head from "next/head";
 import {Fab} from "@mui/material";
-import {Add, Share} from "@mui/icons-material";
+import {Add, Share, Upload} from "@mui/icons-material";
 import AddToGroup from "../../components/forms/AddToGroup";
 import {useSession} from "next-auth/react";
 import Sidebar from "../../components/common/Sidebar";
 import ShareFile from "../../components/forms/ShareFile";
+import UploadFile from "../../components/forms/UploadFile";
 
 const Group = () => {
     const router = useRouter()
@@ -46,8 +47,8 @@ const Group = () => {
                                 snapshot?.data()?.creator===session?.user?.email! && (
                                     <>
                                         <Fab variant="extended" className="flex-end mx-[10px]" onClick={()=> setShareOpen(true)}>
-                                            <Share />
-                                            Share
+                                            <Upload />
+                                            Upload file
                                         </Fab>
                                         <Fab variant="extended" className="flex-end ml-[10px]" onClick={()=> setOpen(true)}>
                                             <Add />
@@ -83,7 +84,7 @@ const Group = () => {
                             close={() => setOpen(false)}
                             link={`http://localhost:3000/groups/${id}`}
                         />
-                        <ShareFile
+                        <UploadFile
                             open={shareOpen}
                             close={()=>setShareOpen(false)}/>
                     </div>
