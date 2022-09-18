@@ -12,6 +12,10 @@ export default function UploadFile({
   const uploadRef = useRef(null);
   const [filename, setFilename] = useState("");
   const upload = (e: any) => {
+    if(filename==="") {
+      alert("Name can't be empty")
+      return
+    }
     uploadSomething(filename);
   };
   return (
