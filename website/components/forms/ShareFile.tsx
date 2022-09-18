@@ -10,7 +10,7 @@ import ModalContainer from "../common/ModalContainer/ModalContainer";
 import ButtOn from "../common/ButtOn/ButtOn";
 import { SharedFile } from "../../services/SharedFile";
 
-export default function AddToGroup({ file, owner, open, close, link }: any) {
+export default function ShareFile({ file, owner, open, close, link }: any) {
   const form = useRef(null);
   const [email, setEmail] = useState("");
   const [read, setRead] = useState(false);
